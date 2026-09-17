@@ -47,3 +47,79 @@ if [ -f "$file" ]; then
         cp "$file" /usr/local/bin
 fi
 ```
+# task6
+```
+for file in *.py *.c *.js
+do
+        [ -f "$file" ] || continue
+ 
+        line=$(head -n 1 "$file")
+        line=$(echo "$line" | sed 's/^[[:space:]]*//')
+ 
+        case "$file" in
+        *.py)
+                case "$line" in
+                "#"*)
+                        echo "$file: комментарий есть"
+                        ;;
+                *)
+                        echo "$file: комментария нет"
+                        ;;
+                esac
+                ;;
+ 
+        *.c|*.js)
+                case "$line" in
+                "//"*|"/*"*)
+                        echo "$file: комментарий есть"
+                        ;;
+                *)
+                        echo "$file: комментария нет"
+                        ;;
+                esac
+                ;;
+        esac
+done
+```
+# task7
+```
+#!/bin/sh
+ 
+path="$1"
+if [ -z "$path" ]
+then
+        echo "Укажите путь"
+        exit 1
+fi
+ 
+list="/tmp/files.txt"
+ 
+find "$path" -type f > "$list"
+ 
+n=0
+ 
+while IFS= read -r file1
+do
+        n=$((n+1))
+        m=0
+ 
+        while IFS= read -r file2
+        do
+                m=$((m+1))
+ 
+                if [ "$m" -le "$n" ]
+                then
+                        continue
+                fi
+ 
+                if cmp -s "$file1" "$file2"
+                then
+                        echo "Дубликаты: $file1 и $file2"
+                fi
+ 
+        done < "$list"
+ 
+done < "$list"
+ 
+rm "$list"
+```
