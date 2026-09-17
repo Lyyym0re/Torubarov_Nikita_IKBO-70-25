@@ -123,3 +123,19 @@ done < "$list"
  
 rm "$list"
 ```
+# task8
+```
+#!/bin/sh
+ 
+dir=$1
+ext=$2
+if [ ! -d "$dir" ]
+then
+        echo "Директории $dir не существует"
+        exit 1
+fi
+ 
+tar -cf archive.tar "$dir"/*."$ext"
+ 
+echo "done"
+```
