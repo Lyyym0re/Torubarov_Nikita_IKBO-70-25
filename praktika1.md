@@ -154,3 +154,23 @@ fi
  
 sed 's/    /\t/' "$fileinput" > "$fileoutput"
 ```
+# task10
+```
+#!/bin/sh
+ 
+dir="$1"
+ 
+if ! [ -d "$dir" ]
+then
+        echo "Директортия не найдена"
+        exit 1
+fi
+ 
+for file in "$dir"/*
+do
+        if [ -f "$file" ] && [ ! -s "$file" ]
+        then
+                echo "$file"
+        fi
+done
+```
