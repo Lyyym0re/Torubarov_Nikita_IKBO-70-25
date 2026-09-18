@@ -139,3 +139,18 @@ tar -cf archive.tar "$dir"/*."$ext"
  
 echo "done"
 ```
+# task9
+```
+#!/bin/sh
+ 
+fileinput="$1"
+fileoutput="$2"
+ 
+if ! [ -f "$fileinput" ]
+then
+        echo "Проверьте существует ли файл"
+        exit 1
+fi
+ 
+sed 's/    /\t/' "$fileinput" > "$fileoutput"
+```
