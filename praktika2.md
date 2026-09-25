@@ -16,3 +16,56 @@ dependencies — зависимости, необходимые для рабо�
 engines — требования к среде выполнения, например к версии Node.js, scripts — команды проекта, например запуск тестов.  
 Получить пакет без менеджера пакетов:  
 ```git clone https://github.com/expressjs/express.git```
+# task 3
+Зависимости matplotlib:
+```
+digraph matplotlib{
+        "matplotlib" -> "contourpy";
+        "matplotlib" -> "cycler";
+        "matplotlib" -> "fonttools";
+        "matplotlib" -> "kiwisolver";
+        "matplotlib" -> "numpy";
+        "matplotlib" -> "packaging";
+        "matplotlib" -> "pillow";
+        "matplotlib" -> "pyparsing";
+        "matplotlib" -> "python-dateutil";
+}
+```
+Зависимости express:
+```
+digraph express{
+        "express" -> "accepts";
+        "express" -> "body-parser";
+        "express" -> "content-disposition";
+        "express" -> "content-type";
+        "express" -> "cookie";
+        "express" -> "cookie-signature";
+        "express" -> "debug";
+        "express" -> "depd";
+        "express" -> "encodeurl";
+        "express" -> "escape-html";
+        "express" -> "etag";
+        "express" -> "finalhandler";
+        "express" -> "fresh";
+        "express" -> "http-errors";
+        "express" -> "merge-descriptors";
+        "express" -> "mime-types";
+        "express" -> "on-finished";
+        "express" -> "once";
+        "express" -> "parseurl";
+        "express" -> "proxy-addr";
+        "express" -> "qs";
+        "express" -> "range-parser";
+        "express" -> "router";
+        "express" -> "send";
+        "express" -> "serve-static";
+        "express" -> "statuses";
+        "express" -> "type-is";
+        "express" -> "vary";
+}
+```
+Сформировать png зависимостей matplotlib:  
+```dot -Tpng matplotlib.dot -o matplotlib.png```  
+Сформировать png зависимостей express:  
+```dot -Tpng express.dot -o express.png```
+# task 4
