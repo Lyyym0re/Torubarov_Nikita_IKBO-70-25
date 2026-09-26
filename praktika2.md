@@ -130,3 +130,165 @@ dropdown = 1.8.0
 icons = 1.0.0
 ```
 # task 6
+```
+array[1..2] of string: foo_versions =
+    ["1.0.0", "1.1.0"];
+
+array[1..2] of string: left_versions =
+    ["not installed", "1.0.0"];
+
+array[1..2] of string: right_versions =
+    ["not installed", "1.0.0"];
+
+array[1..3] of string: shared_versions =
+    ["not installed", "1.0.0", "2.0.0"];
+
+array[1..2] of string: target_versions =
+    ["1.0.0", "2.0.0"];
+
+array[1..1] of string: root_versions =
+    ["1.0.0"];
+
+var 1..1: root;
+var 1..2: foo;
+var 0..1: left;
+var 0..1: right;
+var 0..2: shared;
+var 1..2: target;
+
+constraint (root = 1) ->
+    ((foo = 1 \/ foo = 2) /\ (target = 2));
+
+constraint (foo = 2) ->
+    ((left = 1) /\ (right = 1));
+
+constraint (foo = 1) ->
+    ((left = 0) /\ (right = 0));
+
+constraint (left = 1) ->
+    (shared >= 1);
+
+constraint (right = 1) ->
+    (shared = 1);
+
+constraint ((left = 0) /\ (right = 0)) ->
+    (shared = 0);
+
+constraint (shared = 1) ->
+    (target = 1);
+
+solve satisfy;
+
+output [
+    "root = ", root_versions[fix(root)], "\n",
+    "foo = ", foo_versions[fix(foo)], "\n",
+    "left = ", left_versions[fix(left)+1], "\n",
+    "right = ", right_versions[fix(right)+1], "\n",
+    "shared = ", shared_versions[fix(shared)+1], "\n",
+    "target = ", target_versions[fix(target)], "\n"
+];
+```
+Ответ:  
+```
+root = 1.0.0
+foo = 1.0.0
+left = not installed
+right = not installed
+shared = not installed
+target = 2.0.0
+```
+# task 7
+Решение:  
+```
+packages = {
+    "root": {
+        "1.0.0": {
+            "foo": ["1.0.0", "1.1.0"],
+            "target": ["2.0.0"]
+        }
+    },
+
+    "foo": {
+        "1.0.0": {},
+        "1.1.0": {
+            "left": ["1.0.0"],
+            "right": ["1.0.0"]
+        }
+    },
+
+    "left": {
+        "1.0.0": {
+            "shared": ["1.0.0", "2.0.0"]
+        }
+    },
+
+    "right": {
+        "1.0.0": {
+            "shared": ["1.0.0"]
+        }
+    },
+
+    "shared": {
+        "1.0.0": {
+            "target": ["1.0.0"]
+        },
+        "2.0.0": {}
+    },
+
+    "target": {
+        "1.0.0": {},
+        "2.0.0": {}
+    }
+}
+
+
+versions = {
+    "root":   ["1.0.0"],
+    "foo":    ["1.0.0", "1.1.0"],
+    "left":   ["1.0.0"],
+    "right":  ["1.0.0"],
+    "shared": ["1.0.0", "2.0.0"],
+    "target": ["1.0.0", "2.0.0"]
+}
+
+
+for package in packages:
+    for version in packages[package]:
+
+        package_number = versions[package].index(version) + 1
+
+        dependencies = packages[package][version]
+
+        for dependency in dependencies:
+
+            allowed_versions = dependencies[dependency]
+
+            conditions = []
+
+            for allowed_version in allowed_versions:
+
+                version_number = (
+                    versions[dependency].index(allowed_version) + 1
+                )
+
+                conditions.append(
+                    f"{dependency} = {version_number}"
+                )
+
+            condition = " \\/ ".join(conditions)
+
+            print(
+                f"constraint ({package} = {package_number}) "
+                f"-> ({condition});"
+            )
+```
+Ответ:  
+```
+constraint (root = 1) -> (foo = 1 \/ foo = 2);
+constraint (root = 1) -> (target = 2);
+constraint (foo = 2) -> (left = 1);
+constraint (foo = 2) -> (right = 1);
+constraint (left = 1) -> (shared = 1 \/ shared = 2);
+constraint (right = 1) -> (shared = 1);
+constraint (shared = 1) -> (target = 1);
+```
