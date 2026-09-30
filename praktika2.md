@@ -1,6 +1,6 @@
 # task 1
 Вывести служебную информацию о пакете matplotlib (Python):  
-``` python -m pip show matplotlib ```  
+```pip show matplotlib```  
 Служебная информация о пакете matplotlib хранится в файле METADATA каталога:matplotlib-3.10.8.dist-info  
 Поле Metadata-Version означает версию стандарта, по которому записаны метаданные пакета. Поле Name содержит название пакета,
 Version — его версию, Summary — краткое описание, Author - автор.
